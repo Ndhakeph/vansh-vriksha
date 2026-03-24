@@ -63,8 +63,8 @@ export default async function PersonPage({
   }
 
   const lifespan = [
-    person.date_of_birth ? formatDate(person.date_of_birth) : null,
-    person.date_of_death ? formatDate(person.date_of_death) : null,
+    person.birth_date ? formatDate(person.birth_date) : null,
+    person.death_date ? formatDate(person.death_date) : null,
   ]
     .filter(Boolean)
     .join(" — ");
@@ -125,47 +125,20 @@ export default async function PersonPage({
 
           <div>
             <h1 className="font-display text-3xl font-bold text-forest sm:text-4xl">
-              {person.first_name}{" "}
-              {person.maiden_name && (
-                <span className="text-forest/40">({person.maiden_name}) </span>
-              )}
-              {person.last_name}
+              {person.first_name} {person.last_name}
             </h1>
 
             {lifespan && (
               <p className="mt-2 text-sm text-forest/60">{lifespan}</p>
             )}
 
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              {person.location && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-forest/5 px-3 py-1 text-xs text-forest/70">
-                  <svg
-                    className="h-3 w-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {person.location}
-                </span>
-              )}
-              {person.occupation && (
+            {person.occupation && (
+              <div className="mt-3">
                 <span className="inline-flex items-center gap-1 rounded-full bg-gold/10 px-3 py-1 text-xs text-gold-dark">
                   {person.occupation}
                 </span>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
 

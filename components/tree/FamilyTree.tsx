@@ -291,16 +291,16 @@ export default function FamilyTree({ data }: FamilyTreeProps) {
           <p className="font-display text-sm font-semibold text-forest">
             {tooltip.node.name}
           </p>
-          {tooltip.node.person.date_of_birth && (
+          {tooltip.node.person.birth_date && (
             <p className="mt-0.5 text-xs text-forest/60">
-              Born: {new Date(tooltip.node.person.date_of_birth).getFullYear()}
-              {tooltip.node.person.date_of_death &&
-                ` — ${new Date(tooltip.node.person.date_of_death).getFullYear()}`}
+              Born: {new Date(tooltip.node.person.birth_date).getFullYear()}
+              {tooltip.node.person.death_date &&
+                ` — ${new Date(tooltip.node.person.death_date).getFullYear()}`}
             </p>
           )}
-          {tooltip.node.person.location && (
+          {tooltip.node.person.occupation && (
             <p className="text-xs text-forest/60">
-              {tooltip.node.person.location}
+              {tooltip.node.person.occupation}
             </p>
           )}
           {tooltip.node.spouse && (

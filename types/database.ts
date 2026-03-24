@@ -2,16 +2,13 @@ export interface Person {
   id: string;
   first_name: string;
   last_name: string;
-  maiden_name: string | null;
-  date_of_birth: string | null;
-  date_of_death: string | null;
+  birth_date: string | null;
+  death_date: string | null;
   gender: "male" | "female";
   photo_url: string | null;
   bio: string | null;
-  location: string | null;
   occupation: string | null;
   generation: number;
-  branch_color: string | null;
   created_at: string;
   updated_at: string;
 }
