@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getPersonWithRelations } from "@/lib/queries/people";
 import { getPhotosByPerson } from "@/lib/queries/photos";
 import { getStoriesByPerson } from "@/lib/queries/stories";
+import { getUser } from "@/lib/supabase/auth";
+import AddStoryForm from "@/components/person/AddStoryForm";
 import type { Person } from "@/types/database";
 
 function formatDate(dateStr: string | null): string {
@@ -52,12 +54,17 @@ export default async function PersonPage({
 
   let photos: Awaited<ReturnType<typeof getPhotosByPerson>> = [];
   let stories: Awaited<ReturnType<typeof getStoriesByPerson>> = [];
+  let isAdmin = false;
 
   try {
-    [photos, stories] = await Promise.all([
+    const [photosResult, storiesResult, user] = await Promise.all([
       getPhotosByPerson(params.id),
       getStoriesByPerson(params.id),
+      getUser(),
     ]);
+    photos = photosResult;
+    stories = storiesResult;
+    isAdmin = !!user;
   } catch {
     // Non-critical — page still renders without photos/stories
   }
@@ -242,9 +249,19 @@ export default async function PersonPage({
 
         {/* Stories */}
         <section className="mb-10">
-          <h2 className="mb-4 font-display text-xl font-semibold text-forest">
-            Stories & Memories
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-display text-xl font-semibold text-forest">
+              Stories & Memories
+            </h2>
+            {isAdmin && (
+              <Link
+                href={`/admin/edit/${person.id}`}
+                className="rounded-lg px-3 py-1 text-xs text-forest/50 transition-colors hover:bg-forest/5 hover:text-forest"
+              >
+                Edit Profile
+              </Link>
+            )}
+          </div>
           {stories.length > 0 ? (
             <div className="space-y-4">
               {stories.map((story) => (
@@ -271,6 +288,11 @@ export default async function PersonPage({
               <p className="text-sm text-forest/40">
                 No stories yet — memories will appear here
               </p>
+            </div>
+          )}
+          {isAdmin && (
+            <div className="mt-4">
+              <AddStoryForm personId={person.id} />
             </div>
           )}
         </section>
